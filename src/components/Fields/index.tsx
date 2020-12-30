@@ -1,17 +1,33 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
 import { FieldsContainer, Field } from './styles';
 
 interface MethodProps {
   method: string;
+
+  specific?:
+    | {
+        _id: string;
+        product: {
+          name: string;
+        };
+        quantity: number;
+        price: number;
+        client: {
+          name: string;
+        };
+      }
+    | undefined;
 }
 
-const Fields: React.FC<MethodProps> = props => {
-  const [product, setProduct] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [price, setPrice] = useState('');
-  const [client, setClient] = useState('');
+const Fields: React.FC<MethodProps> = ({ specific, method }) => {
+  const history = useHistory();
+  const [product, setProduct] = useState(specific?.product.name);
+  const [quantity, setQuantity] = useState(specific?.quantity);
+  const [price, setPrice] = useState(specific?.price);
+  const [client, setClient] = useState(specific?.client.name);
 
   async function handleSubmit() {
     const data = {
@@ -24,11 +40,10 @@ const Fields: React.FC<MethodProps> = props => {
         name: client,
       },
     };
-
-    // console.log(props.method);
-    if (props.method === 'POST') {
+    if (method === 'POST') {
       await api.post('stocks', data);
       alert('Sucessfully Created ');
+      history.push('/');
     }
   }
   return (
@@ -40,6 +55,7 @@ const Fields: React.FC<MethodProps> = props => {
             type="text"
             id="product"
             onChange={e => setProduct(e.target.value)}
+            value={specific?.product.name}
           />
         </label>
       </Field>
@@ -50,6 +66,7 @@ const Fields: React.FC<MethodProps> = props => {
             type="text"
             id="quantity"
             onChange={e => setQuantity(e.target.value)}
+            value={specific?.quantity}
           />
         </label>
       </Field>
@@ -60,6 +77,7 @@ const Fields: React.FC<MethodProps> = props => {
             type="text"
             id="price"
             onChange={e => setPrice(e.target.value)}
+            value={specific?.price}
           />
         </label>
       </Field>
@@ -70,6 +88,7 @@ const Fields: React.FC<MethodProps> = props => {
             type="text"
             id="client"
             onChange={e => setClient(e.target.value)}
+            value={specific?.client.name}
           />
         </label>
       </Field>

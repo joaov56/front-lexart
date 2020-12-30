@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
                     </button>
                   </td>
                   <td>
-                    <button type="button">Select</button>
+                    <Link to={`/edit/${product._id}`}> Select</Link>
                   </td>
                 </tr>
               ))}
