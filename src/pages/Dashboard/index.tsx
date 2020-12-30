@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { Table, Landing } from './styles';
 
@@ -35,6 +36,7 @@ const Dashboard: React.FC = () => {
       <Landing>
         <Table>
           <table>
+            <Link to="/">+Novo</Link>
             <thead>
               <tr>
                 <th>Id</th>

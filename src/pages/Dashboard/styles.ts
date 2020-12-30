@@ -24,7 +24,7 @@ export const Table = styled.table`
 
   td,
   th {
-    padding: 16px;
+    padding: 10px;
     border-bottom: 1px solid #d9d9d9;
     text-align: center;
   }
