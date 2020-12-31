@@ -27,6 +27,7 @@ const Dashboard: React.FC = () => {
   }, []);
   async function handleDelete(id: string) {
     await api.delete(`stocks/${id}`);
+    setProducts(products.filter(product => product._id !== id));
   }
   return (
     <>
