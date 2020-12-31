@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import Fields from '../../components/Fields';
 import api from '../../services/api';
+import { Header } from '../Dashboard/styles';
 
 interface StockParam {
   id: string;
@@ -31,7 +32,9 @@ const Edit: React.FC = () => {
 
   return (
     <>
-      <h1>Edit</h1>
+      <Header>
+        <h1>Edit</h1>
+      </Header>
       <Fields method="PUT" specific={data} />
     </>
   );
