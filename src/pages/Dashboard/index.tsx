@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
-import { Table, Landing } from './styles';
+import { Table, Landing, Header } from './styles';
 
 interface Stock {
   _id: string;
@@ -13,6 +13,7 @@ interface Stock {
   client: {
     name: string;
   };
+  formattedValue: string;
 }
 const Dashboard: React.FC = () => {
   const [products, setProducts] = useState<Stock[]>([]);
@@ -20,7 +21,16 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     async function loadStock(): Promise<void> {
       const response = await api.get('stocks');
-      setProducts(response.data);
+      const formated = response.data.map((product: Stock) => {
+        return {
+          ...product,
+          formattedValue: Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'USD',
+          }).format(product.price),
+        };
+      });
+      setProducts(formated);
     }
 
     loadStock();
@@ -31,13 +41,15 @@ const Dashboard: React.FC = () => {
   }
   return (
     <>
-      <div className="header">
+      <Header>
         <h1>ABM Stock</h1>
-      </div>
+        <Link to="/create">
+          <a href="/">+New</a>
+        </Link>
+      </Header>
       <Landing>
         <Table>
           <table>
-            <Link to="/">+Novo</Link>
             <thead>
               <tr>
                 <th>Id</th>
@@ -53,18 +65,20 @@ const Dashboard: React.FC = () => {
                   <td>{product._id}</td>
                   <td>{product.quantity}</td>
                   <td>{product.product.name}</td>
-                  <td>{product.price}</td>
+                  <td>{product.formattedValue}</td>
                   <td>{product.client.name}</td>
                   <td>
                     <button
                       type="button"
                       onClick={() => handleDelete(product._id)}
                     >
-                      Excluir
+                      Delete
                     </button>
                   </td>
                   <td>
-                    <Link to={`/edit/${product._id}`}> Select</Link>
+                    <Link to={`/edit/${product._id}`}>
+                      <a href="/">Select</a>
+                    </Link>
                   </td>
                 </tr>
               ))}
