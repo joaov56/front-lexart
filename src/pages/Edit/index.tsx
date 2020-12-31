@@ -25,8 +25,6 @@ const Edit: React.FC = () => {
 
   useEffect(() => {
     api.get(`/stocks/${id}`).then(response => {
-      console.log(response);
-
       setData(response.data);
     });
   }, []);

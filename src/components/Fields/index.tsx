@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
 import { FieldsContainer, Field } from './styles';
@@ -24,10 +24,17 @@ interface MethodProps {
 
 const Fields: React.FC<MethodProps> = ({ specific, method }) => {
   const history = useHistory();
-  const [product, setProduct] = useState(specific?.product.name);
-  const [quantity, setQuantity] = useState(specific?.quantity);
-  const [price, setPrice] = useState(specific?.price);
-  const [client, setClient] = useState(specific?.client.name);
+  const [product, setProduct] = useState<string | undefined>('');
+  const [quantity, setQuantity] = useState<number | undefined>();
+  const [price, setPrice] = useState<number | undefined>();
+  const [client, setClient] = useState<string | undefined>('');
+
+  useEffect(() => {
+    setProduct(specific?.product.name);
+    setQuantity(specific?.quantity);
+    setPrice(specific?.price);
+    setClient(specific?.client.name);
+  }, [specific]);
 
   async function handleSubmit() {
     const data = {
@@ -42,10 +49,13 @@ const Fields: React.FC<MethodProps> = ({ specific, method }) => {
     };
     if (method === 'POST') {
       await api.post('stocks', data);
-      alert('Sucessfully Created ');
+      alert('Sucessfully Created');
       history.push('/');
+    } else if (method === 'PUT') {
+      await api.put(`/stocks/${specific?._id}`, data);
     }
   }
+
   return (
     <FieldsContainer>
       <Field>
@@ -54,8 +64,8 @@ const Fields: React.FC<MethodProps> = ({ specific, method }) => {
           <input
             type="text"
             id="product"
+            value={product}
             onChange={e => setProduct(e.target.value)}
-            value={specific?.product.name}
           />
         </label>
       </Field>
@@ -63,10 +73,10 @@ const Fields: React.FC<MethodProps> = ({ specific, method }) => {
         <label htmlFor="quantity">
           Quantidade
           <input
-            type="text"
+            type="number"
             id="quantity"
-            onChange={e => setQuantity(e.target.value)}
-            value={specific?.quantity}
+            value={quantity}
+            onChange={e => setQuantity(Number(e.target.value))}
           />
         </label>
       </Field>
@@ -74,10 +84,10 @@ const Fields: React.FC<MethodProps> = ({ specific, method }) => {
         <label htmlFor="price">
           Preço
           <input
-            type="text"
+            type="number"
             id="price"
-            onChange={e => setPrice(e.target.value)}
-            value={specific?.price}
+            onChange={e => setPrice(Number(e.target.value))}
+            value={price}
           />
         </label>
       </Field>
@@ -88,7 +98,7 @@ const Fields: React.FC<MethodProps> = ({ specific, method }) => {
             type="text"
             id="client"
             onChange={e => setClient(e.target.value)}
-            value={specific?.client.name}
+            value={client}
           />
         </label>
       </Field>
