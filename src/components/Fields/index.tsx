@@ -53,6 +53,8 @@ const Fields: React.FC<MethodProps> = ({ specific, method }) => {
       history.push('/');
     } else if (method === 'PUT') {
       await api.put(`/stocks/${specific?._id}`, data);
+      alert('Sucessfully Edited');
+      history.push('/');
     }
   }
 
@@ -60,7 +62,7 @@ const Fields: React.FC<MethodProps> = ({ specific, method }) => {
     <FieldsContainer>
       <Field>
         <label htmlFor="product_name">
-          Produto
+          Product:
           <input
             type="text"
             id="product"
@@ -71,7 +73,7 @@ const Fields: React.FC<MethodProps> = ({ specific, method }) => {
       </Field>
       <Field>
         <label htmlFor="quantity">
-          Quantidade
+          Quantity:
           <input
             type="number"
             id="quantity"
@@ -82,7 +84,7 @@ const Fields: React.FC<MethodProps> = ({ specific, method }) => {
       </Field>
       <Field>
         <label htmlFor="price">
-          Preço
+          Price:
           <input
             type="number"
             id="price"
@@ -93,7 +95,7 @@ const Fields: React.FC<MethodProps> = ({ specific, method }) => {
       </Field>
       <Field>
         <label htmlFor="client">
-          Cliente
+          Client:
           <input
             type="text"
             id="client"
@@ -103,7 +105,7 @@ const Fields: React.FC<MethodProps> = ({ specific, method }) => {
         </label>
       </Field>
       <button type="button" onClick={handleSubmit}>
-        Enviar
+        Send
       </button>
     </FieldsContainer>
   );
