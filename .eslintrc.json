@@ -49,7 +49,10 @@
     ],
     "no-use-before-define":"off",
     "prettier/prettier": "error",
-    "no-underscore-dangle":"off"
+    "no-underscore-dangle":"off",
+    "prettier/prettier":["error", {
+      "endOfLine": "auto"
+    }]
   },
   "settings": {
     "import/resolver": {
