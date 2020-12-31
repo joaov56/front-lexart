@@ -82,7 +82,7 @@ const Fields: React.FC<MethodProps> = ({ specific, method }) => {
       </Field>
       <Field>
         <label htmlFor="price">
-          Preço
+          Preços
           <input
             type="number"
             id="price"
