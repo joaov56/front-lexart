@@ -36,3 +36,6 @@ bash
 
 Email: vitorjao56@gmail.com
 Telefone: (21)981396731
+
+#Disclaimer
+Ignore os erros de Lint
